@@ -33,20 +33,18 @@ def index():
 
     return "hello world"
 
-@app.post("/add")
-def adduser():
-    usr=request.json()
-    user=Users(usr['name'],usr['age'])
+@app.route("/add/<name>/<age>")
+def adduser(name, age):
+    #usr=request.json()
+    user=Users(name,age)
     db.session.add(user)
     db.session.commit()
-    
     return {"message":"added user sucessfully"}
 
 @app.get("/users")
 def allusers():
     data=Users.query.all()
     data=users.dump(data)
-
     return users.jsonify(data)
 
 @app.route('/user/<uid>')
